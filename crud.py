@@ -26,6 +26,10 @@ def return_all_movies():
     """Return all movies."""
     return Movie.query.all()
 
+def get_movie_by_id(movie_id): 
+    """"Return title of movie with a given id"""
+    return Movie.query.get(movie_id)
+
 
 def create_rating(user, movie, score):
     """Create and return a new rating."""
