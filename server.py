@@ -90,6 +90,24 @@ def show_user(user_id):
     return render_template("user_details.html", user=user, user_id=user_id)
 
 
+@app.route('/movie-rating')
+def rate_movies():
+    """Allow user to select a movie from drop-down and assign a rating 0-5."""
+
+    movies = crud.return_all_movies()
+    
+    all_movies = []
+    
+    for i in range(len(movies)):
+        title = movies[i].title
+        all_movies.append(title)
+        all_movies.sort()
+
+    return render_template('rate_movies.html', movies=all_movies)
+
+
+
+
 if __name__ == "__main__":
     # DebugToolbarExtension(app)
     connect_to_db(app)
