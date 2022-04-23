@@ -36,6 +36,22 @@ def display_users():
 
     return render_template("users.html", users=users)
 
+@app.route('/users', methods=["POST"])
+def account_reg():
+    new_user_email = request.form['email']
+    new_user_password = request.form['password']
+
+    if crud.get_user_by_email(new_user_email):
+        msg = "This account already exists, please log in"
+    else:
+        new_user = crud.create_user(new_user_email, new_user_password)
+
+        db.session.add(new_user)
+        db.session.commit()
+        msg = "Your account was successfully created!"
+    flash(msg)
+    return redirect('/')
+
 @app.route('/users/<user_id>')
 def show_user(user_id):
     """"Show dteails on a particular user."""
