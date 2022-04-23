@@ -92,8 +92,8 @@ def show_user(user_id):
 
 
 @app.route('/movie-rating')
-def rate_movies():
-    """Allow user to select a movie from drop-down and assign a rating 0-5."""
+def show_rate_movies_page():
+    """"""
 
     movies = crud.return_all_movies()
     
@@ -103,10 +103,29 @@ def rate_movies():
         title = movies[i].title
         all_movies.append(title)
         all_movies.sort()
-
-    rating = request.args.get
-
+    
     return render_template('rate_movies.html', movies=all_movies)
+
+@app.route('/movie-rating', methods=["POST"])
+def rate_movies():
+    """Allow user to select a movie from drop-down and assign a rating 0-5."""
+
+    user = crud.get_user_by_id(session['user_id'])
+
+    # movie = request.form.get('movie')
+
+    selected_movie = crud.get_movie_by_title(request.form.get('movie'))
+
+    score = int(request.form.get("rating"))
+
+    db_rating = crud.create_rating(user, selected_movie, score)
+
+    db.session.add(db_rating)
+    db.session.commit()
+
+    flash(f'Movie rating for {selected_movie.title} submitted!')
+
+    return redirect('/movie-rating')
 
 
 

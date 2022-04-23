@@ -42,6 +42,10 @@ def get_movie_by_id(movie_id):
     """"Return title of movie with a given id"""
     return Movie.query.get(movie_id)
 
+def get_movie_by_title(title): 
+    """"Return title of movie with a given id"""
+    return Movie.query.filter(Movie.title == title).first()
+
 
 def create_rating(user, movie, score):
     """Create and return a new rating."""
