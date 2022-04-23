@@ -26,18 +26,27 @@ def movies():
 @app.route('/movies/<movie_id>')
 def show_movie(movie_id):
     """"Show dteails on a particular movie."""
+
     movie = crud.get_movie_by_id(movie_id)
 
     return render_template("movie_details.html", movie=movie)
 
+
 @app.route('/users')
 def display_users():
+    """Show a list of all users that link to user details pages."""
+
+
     users = crud.return_all_users()
 
     return render_template("users.html", users=users)
 
+
 @app.route('/users', methods=["POST"])
 def account_reg():
+    """Create new account.
+    
+    If email isn't in db, allow user to create an account & store it in db."""
     new_user_email = request.form['email']
     new_user_password = request.form['password']
 
@@ -52,12 +61,34 @@ def account_reg():
     flash(msg)
     return redirect('/')
 
+
+@app.route('/login', methods=["POST"])
+def login():
+    """User login.
+
+    Store user_id in session if password matches db"""
+
+    active_user_email = request.form['email']
+
+    active_user_password = request.form['password']
+
+    active_user = crud.get_user_by_email(active_user_email)
+
+    if active_user.password == active_user_password:
+        session['user_id'] = active_user.user_id
+        flash(f"You're logged in, {active_user_email}!")
+    
+    return redirect('/')
+    
+
+
 @app.route('/users/<user_id>')
 def show_user(user_id):
     """"Show dteails on a particular user."""
     user = crud.get_user_by_id(user_id)
 
     return render_template("user_details.html", user=user, user_id=user_id)
+
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)

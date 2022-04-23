@@ -14,7 +14,7 @@ def return_all_users():
     """Return all movies."""
     return User.query.all()
 
-def get_user_byid(user_id): 
+def get_user_by_id(user_id): 
     """Return user detail with a given id"""
     return User.query.get(user_id)
 
