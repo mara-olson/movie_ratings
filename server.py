@@ -1,5 +1,6 @@
 """Server for movie ratings app."""
 
+import re
 from flask import (Flask, render_template, request, flash, session, redirect)
 from model import connect_to_db, db
 import crud
@@ -97,11 +98,13 @@ def rate_movies():
     movies = crud.return_all_movies()
     
     all_movies = []
-    
+
     for i in range(len(movies)):
         title = movies[i].title
         all_movies.append(title)
         all_movies.sort()
+
+    rating = request.args.get
 
     return render_template('rate_movies.html', movies=all_movies)
 
