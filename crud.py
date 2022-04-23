@@ -10,6 +10,14 @@ def create_user(email, password):
 
     return user
 
+def return_all_users():
+    """Return all movies."""
+    return User.query.all()
+
+def get_user_by_id(user_id): 
+    """"Return user detail with a given id"""
+    return User.query.get(user_id)
+
 def create_movie(title, overview, release_date, poster_path):
     """Create and return a new movie."""
 

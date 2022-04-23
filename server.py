@@ -30,6 +30,19 @@ def show_movie(movie_id):
 
     return render_template("movie_details.html", movie=movie)
 
+@app.route('/users')
+def display_users():
+    users = crud.return_all_users()
+
+    return render_template("users.html", users=users)
+
+@app.route('/users/<user_id>')
+def show_user(user_id):
+    """"Show dteails on a particular user."""
+    user = crud.get_user_by_id(user_id)
+
+    return render_template("user_details.html", user=user, user_id=user_id)
+
 if __name__ == "__main__":
     # DebugToolbarExtension(app)
     connect_to_db(app)
