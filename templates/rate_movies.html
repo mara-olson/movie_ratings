@@ -1,0 +1,23 @@
+{% extends 'base.html' %} {% block title %}Rate a Movie{% endblock %} {%block
+body %}
+<h1>Rate a Movie</h1>
+<form action="/movie-rating" method="POST">
+  <label for="movie-selection">Select a movie to rate</label>
+  <select id="movie-selection" name="movie">
+    <option value=""></option>
+    {% for movie in movies %}
+    <option value="{{ movie.movie_id }}">{{movie.title}}</option>
+    {% endfor %}</select
+  ><br />
+  <label for="rate-movie">Choose your rating</label>
+  {% for i in range(6) %}
+  <br />
+  <input type="radio" id="rate-movie" name="rating" value="{{ i }}" />{{ i }} {%
+  endfor %} <br />
+  <!-- {% for i in range(6) %}
+    <option value="{{ i }}">{{ i }}</option>
+    {% endfor %}</select
+  ><br /> -->
+  <input type="submit" />
+</form>
+{% endblock %}
