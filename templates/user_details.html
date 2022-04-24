@@ -6,7 +6,7 @@
 
 <ol>
   {% for rating in movie_ratings %}
-  <li>{{ rating['movie_title'] }} ... {{ rating['rating'] }}</li>
+  <li>{{ rating['movie_title'] }}: {{ rating['rating'] }}/5</li>
   {% endfor %}
 </ol>
 
