@@ -43,7 +43,7 @@ def get_movie_by_id(movie_id):
     return Movie.query.get(movie_id)
 
 def get_movie_by_title(title): 
-    """"Return title of movie with a given id"""
+    """"Return movie object from a given id"""
     return Movie.query.filter(Movie.title == title).first()
 
 
@@ -53,6 +53,15 @@ def create_rating(user, movie, score):
     rating = Rating(user=user, movie=movie, score=score)
 
     return rating
+
+def get_ratings(user_id):
+    """Return all ratings for a given user."""
+    # user = get_user_by_id(user_id)
+
+    user_ratings = Rating.query.filter(Rating.user_id == user_id).all()
+
+    return user_ratings
+    
 
 if __name__ == '__main__':
     from server import app

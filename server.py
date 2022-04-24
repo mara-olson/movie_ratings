@@ -88,7 +88,16 @@ def show_user(user_id):
     """"Show dteails on a particular user."""
     user = crud.get_user_by_id(user_id)
 
-    return render_template("user_details.html", user=user, user_id=user_id)
+    # user_ratings = Rating.query.filter(Rating.user_id == user.user_id).all()
+
+    movie_ratings = []
+
+    user_ratings = crud.get_ratings(user.user_id)
+
+    for rating in user_ratings:
+        movie_ratings.append({"movie_title": rating.movie.title, "rating": rating.score})
+    
+    return render_template("user_details.html", user=user, user_id=user_id, movie_ratings=movie_ratings)
 
 
 @app.route('/movie-rating')
@@ -97,14 +106,14 @@ def show_rate_movies_page():
 
     movies = crud.return_all_movies()
     
-    all_movies = []
+    # all_movies = []
 
-    for i in range(len(movies)):
-        title = movies[i].title
-        all_movies.append(title)
-        all_movies.sort()
+    # for i in range(len(movies)):
+    #     title = movies[i].title
+    #     all_movies.append(title)
+    #     all_movies.sort()
     
-    return render_template('rate_movies.html', movies=all_movies)
+    return render_template('rate_movies.html', movies=movies)
 
 @app.route('/movie-rating', methods=["POST"])
 def rate_movies():
@@ -114,16 +123,16 @@ def rate_movies():
 
     # movie = request.form.get('movie')
 
-    selected_movie = crud.get_movie_by_title(request.form.get('movie'))
+    selected_movie_id = crud.get_movie_by_id(request.form.get('movie'))
 
     score = int(request.form.get("rating"))
 
-    db_rating = crud.create_rating(user, selected_movie, score)
+    db_rating = crud.create_rating(user, selected_movie_id, score)
 
     db.session.add(db_rating)
     db.session.commit()
 
-    flash(f'Movie rating for {selected_movie.title} submitted!')
+    # flash(f'Movie rating for {selected_movie.title} submitted!')
 
     return redirect('/movie-rating')
 

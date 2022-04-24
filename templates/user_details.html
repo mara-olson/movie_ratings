@@ -4,4 +4,10 @@
 
 <p>{{ user.email }}</p>
 
+<ol>
+  {% for rating in movie_ratings %}
+  <li>{{ rating['movie_title'] }} ... {{ rating['rating'] }}</li>
+  {% endfor %}
+</ol>
+
 {% endblock %}
